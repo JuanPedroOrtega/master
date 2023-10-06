@@ -1,0 +1,35 @@
+@import 'variables';
+
+.container-1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  margin: 2px;
+}
+
+.box.base-color {
+    background-color: $base-color;
+}
+
+@for $i from 1 through 4 {
+  $suffix: $i;
+  
+  .darken-#{$suffix} {
+    background-color: darken($base-color, $suffix * 10%);
+  }
+  
+  .lighten-#{$suffix} {
+    background-color: lighten($base-color, $suffix * 10%);
+  }
+}

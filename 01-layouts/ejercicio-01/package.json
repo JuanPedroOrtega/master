@@ -1,0 +1,15 @@
+{
+  "name": "ejercicio-01",
+  "version": "1.0.0",
+  "description": "Ejercicio 1: Crear una paleta de colores dinámica.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.68.0"
+  }
+}
