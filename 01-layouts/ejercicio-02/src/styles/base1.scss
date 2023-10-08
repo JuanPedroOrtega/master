@@ -1,0 +1,33 @@
+$base-color: #ffefd5;
+$important-color: #ffd700;
+$warning-color: #ff4500;
+$font-family-primary: 'Shadows Into Light', cursive;
+$font-family-secondary: 'Times New Roman', serif;
+$font-weight: bold;
+$box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.5);
+
+.theme1 {
+  .base-color, .important-color, .warning-color, .shadow-box {
+    font-family: $font-family-primary;
+    border: 2px solid black;
+  }
+  .base-color {
+    background-color: $base-color;
+  }
+  .important-color {
+    background-color: $important-color;
+  }
+  .warning-color {
+    background-color: $warning-color;
+  }
+  .principal-font {
+    font-family: $font-family-primary;
+  }
+  .secondary-font {
+    font-family: $font-family-secondary;
+    font-weight: $font-weight;
+  }
+  .shadow-box {
+    box-shadow: $box-shadow;
+  }
+}

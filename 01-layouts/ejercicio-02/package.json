@@ -1,0 +1,14 @@
+{
+  "name": "ejercicio-02",
+  "version": "1.0.0",
+  "description": "Ejercicio 2: crear dos temas distintos y mostrar resultados en una pagina.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.69.0"
+  }
+}

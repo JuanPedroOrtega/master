@@ -1,0 +1,31 @@
+$base-color: #e0ffff;
+$important-color: #00fa9a;
+$warning-color: #9932cc;
+$font-family-primary: 'Pixelify Sans', cursive;
+$font-family-secondary: 'Dancing Script', cursive;
+$font-weight: bold;
+$box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.9);
+
+.theme2 {
+    .base-color, .important-color, .warning-color, .shadow-box{
+        font-family: $font-family-primary;
+        border-radius: 10px;
+        border: 2px solid black;
+      }
+  .base-color {
+    background-color: $base-color;
+  }
+  .important-color {
+    background-color: $important-color;
+  }
+  .warning-color {
+    background-color: $warning-color;
+  }
+  .secondary-font {
+    font-family: $font-family-secondary;
+    font-weight: $font-weight;
+  }
+  .shadow-box {
+    box-shadow: $box-shadow;
+  }
+}
