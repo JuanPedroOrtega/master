@@ -27,20 +27,20 @@ console.log("* Apartado A *")
 //   console.log(flattenedArray);
   
 
-console.log("* Apartado B *")
-function flattenArray<T>(arr: (T | T[])[], result: T[] = []): T[] {
-    return arr.reduce<T[]>((flat, current) => {
-      if (Array.isArray(current)) {
-        return flattenArray(current, flat);
-      } else {
-        return [...flat, current];
-      }
-    }, result);
-  }
+// console.log("* Apartado B *")
+// function flattenArray<T>(arr: (T | T[])[], result: T[] = []): T[] {
+//     return arr.reduce<T[]>((flat, current) => {
+//       if (Array.isArray(current)) {
+//         return flattenArray(current, flat);
+//       } else {
+//         return [...flat, current];
+//       }
+//     }, result);
+//   }
   
-  const sample = [1, [2, 3], [[4], [5, 6, [7, 8, [9]]]]];
-  const flattenedArray = flattenArray<number>(sample);
+//   const sample = [1, [2, 3], [[4], [5, 6, [7, 8, [9]]]]];
+//   const flattenedArray = flattenArray<number>(sample);
   
-  console.log(flattenedArray);
+//   console.log(flattenedArray);
   
   
