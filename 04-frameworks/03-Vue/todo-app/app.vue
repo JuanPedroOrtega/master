@@ -1,76 +1,124 @@
 <template>
   <div class="container">
     <h1>ToDo App</h1>
-    <form @submit.prevent="addTodo()">
-      <label>New ToDo </label>
-      <input v-model="newTodo" name="newTodo" autocomplete="off" />
-      <button>Add ToDo</button>
+    <form @submit.prevent="handleAddTodo">
+      <label for="newTodo">New ToDo </label>
+      <input 
+        id="newTodo"
+        v-model="newTodo" 
+        name="newTodo" 
+        autocomplete="off"
+        aria-label="Enter new todo task"
+      />
+      <button type="submit" aria-label="Add new todo">
+        <span class="btn-text">Add ToDo</span>
+        <span aria-hidden="true">➕</span>
+      </button>
     </form>
     <h2>ToDo List</h2>
     <ul>
-      <li v-for="(todo, index) in todos" :key="index">
-        <div class="cntr">
-          <input checked="" type="checkbox" id="cbx" class="hidden-xs-up" />
-          <label for="cbx" class="cbx"></label>
-        </div>
-        <span :class="{ done: todo.done }" @click="doneTodo(todo)">{{
-          todo.content
-        }}</span>
-        <div class="action-buttons">
-          <button class="Btn">
-            Edit
-            <svg class="svg" viewBox="0 0 512 512">
-              <path
-                d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"
-              ></path>
-            </svg>
-          </button>
-          <button class="Btn" @click="removeTodo(index)">
-            Remove
-            <svg class="svg w-full h-full fill-current" viewBox="0 0 448 512">
-              <path
-                d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
-              />
-            </svg>
-          </button>
-        </div>
-      </li>
-    </ul>
-    <h4 v-if="todos.length === 0">Empty list.</h4>
+      <li v-for="todo in todoStore.todos" :key="todo.id">
+          <div class="cntr">
+            <input 
+              :id="`cbx-${todo.id}`"
+              type="checkbox" 
+              class="hidden-xs-up"
+              :checked="todo.done"
+              @change="todoStore.toggleTodo(todo.id)"
+              :aria-label="`Mark '${todo.content}' as ${todo.done ? 'incomplete' : 'complete'}`"
+            />
+            <label :for="`cbx-${todo.id}`" class="cbx"></label>
+          </div>
+          
+          <span 
+            v-if="editingId !== todo.id"
+            :class="{ done: todo.done }" 
+            @click="todoStore.toggleTodo(todo.id)"
+            class="todo-text"
+            :aria-label="todo.done ? 'Completed task' : 'Pending task'"
+          >
+            {{ todo.content }}
+          </span>
+          
+          <input
+            v-else
+            v-model="editingContent"
+            @keyup.enter="saveEdit(todo.id)"
+            @keyup.esc="cancelEdit"
+            @blur="saveEdit(todo.id)"
+            class="edit-input"
+            ref="editInput"
+            :aria-label="`Editing task: ${todo.content}`"
+          />
+          
+          <div class="action-buttons">
+            <button 
+              v-if="editingId !== todo.id"
+              class="Btn"
+              @click="startEdit(todo)"
+              :aria-label="`Edit task: ${todo.content}`"
+            >
+              <span class="btn-text">Edit</span>
+              <svg class="svg" viewBox="0 0 512 512" aria-hidden="true">
+                <path
+                  d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"
+                ></path>
+              </svg>
+            </button>
+            <button 
+              class="Btn"
+              @click="todoStore.removeTodo(todo.id)"
+              :aria-label="`Remove task: ${todo.content}`"
+            >
+              <span class="btn-text">Remove</span>
+              <svg class="svg w-full h-full fill-current" viewBox="0 0 448 512" aria-hidden="true">
+                <path
+                  d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
+                />
+              </svg>
+            </button>
+          </div>
+        </li>
+      </ul>
+      <h4 v-if="todoStore.todos.length === 0">Empty list.</h4>
   </div>
 </template>
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { ref, nextTick } from "vue";
+import { useTodoStore } from "./stores/useTodoStore";
+import type { Todo } from "./stores/useTodoStore";
 
+const todoStore = useTodoStore();
 const newTodo = ref("");
-const defaultData = [
-  {
-    done: true,
-    content: "Write a blog post",
-  },
-  {
-    done: false,
-    content: "Listen a podcast",
-  },
-];
-const todos = ref(defaultData);
+const editingId = ref<string | null>(null);
+const editingContent = ref("");
+const editInput = ref<HTMLInputElement | null>(null);
 
-function addTodo() {
-  if (newTodo.value) {
-    todos.value.push({
-      done: false,
-      content: newTodo.value,
-    });
-    newTodo.value = "";
+function handleAddTodo() {
+  todoStore.addTodo(newTodo.value);
+  newTodo.value = "";
+}
+
+function startEdit(todo: Todo) {
+  editingId.value = todo.id;
+  editingContent.value = todo.content;
+  nextTick(() => {
+    if (editInput.value) {
+      editInput.value.focus();
+    }
+  });
+}
+
+function saveEdit(id: string) {
+  if (editingContent.value.trim()) {
+    todoStore.updateTodo(id, editingContent.value);
   }
+  cancelEdit();
 }
 
-function doneTodo(todo) {
-  todo.done = !todo.done;
-}
-
-function removeTodo(index) {
-  todos.value.splice(index, 1);
+function cancelEdit() {
+  editingId.value = null;
+  editingContent.value = "";
 }
 </script>
 
@@ -158,11 +206,29 @@ body {
         padding: $size2 $size4;
         border-radius: $size1;
         margin-bottom: $size2;
-        span {
+        .todo-text {
           cursor: pointer;
+          flex: 1;
+          margin: 0 $size2;
         }
         .done {
           text-decoration: line-through;
+          opacity: 0.6;
+        }
+        .edit-input {
+          flex: 1;
+          margin: 0 $size2;
+          background-color: transparent;
+          border: 2px solid $primaryColor;
+          color: inherit;
+          padding: $size1 $size2;
+          border-radius: $size1;
+          font-size: 16px;
+          outline: none;
+          &:focus {
+            border-color: $primaryColorShadow;
+            box-shadow: 0 0 0 2px rgba($primaryColor, 0.3);
+          }
         }
         button {
           font-size: $size2;
@@ -189,6 +255,9 @@ body {
     width: 100px;
     height: 40px;
     transition-duration: 0.3s;
+    .btn-text {
+      transition: opacity 0.3s;
+    }
   }
 
   .svg {
@@ -201,7 +270,9 @@ body {
   }
 
   .Btn:hover {
-    color: transparent !important;
+    .btn-text {
+      opacity: 0;
+    }
   }
 
   .Btn:hover svg {
