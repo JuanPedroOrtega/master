@@ -1,5 +1,11 @@
 # MiniAplicacion
 
+Angular mini-application featuring authentication, routing, CRUD operations, and a 3D image carousel. Built with Angular 21, Angular Material, and RxJS for state management.
+
+**Login Credentials:**
+- Email: `master@lemoncode.net`
+- Password: `12345678`
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
 
 ## Development server

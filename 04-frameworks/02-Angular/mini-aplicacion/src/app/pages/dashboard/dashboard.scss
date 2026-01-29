@@ -1,0 +1,46 @@
+@use '../../../styles/variables' as *;
+
+.dashboard-container {
+  max-width: $max-width-wide;
+  margin: $spacing-xxxl auto;
+  padding: $spacing-lg;
+
+  h1 {
+    color: $color-primary;
+    margin-bottom: $spacing-lg;
+  }
+
+  p {
+    margin-bottom: $spacing-xxl;
+    color: $color-text-secondary;
+  }
+
+  .dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-lg;
+    margin-top: $spacing-xxl;
+
+    .card {
+      background: white;
+      border-radius: $border-radius-md;
+      padding: $spacing-xl;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+
+      h3 {
+        margin: 0 0 $spacing-sm 0;
+        color: $color-text-secondary;
+        font-size: $font-size-base;
+        font-weight: $font-weight-medium;
+      }
+
+      .number {
+        font-size: 36px;
+        font-weight: $font-weight-bold;
+        color: $color-primary;
+        margin: 0;
+      }
+    }
+  }
+}

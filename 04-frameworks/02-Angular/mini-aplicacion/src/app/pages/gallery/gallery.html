@@ -1,1 +1,139 @@
-<p>gallery works!</p>
+<div class="carousel-container">
+  <h1>Carrusel de Fotos</h1>
+
+  <div class="carousel-3d" [class.animating-next]="animationDirection === 'next'" [class.animating-prev]="animationDirection === 'prev'">
+    <div class="carousel-side left">
+      <img 
+        [src]="previousImage.src" 
+        [alt]="previousImage.title"
+        (click)="previous()"
+      />
+    </div>
+
+    <div class="carousel-main">
+      <img 
+        [src]="currentImage.src" 
+        [alt]="currentImage.title"
+        [appRotate]="rotationDegrees"
+      />
+      <div class="image-info">
+        <h2>{{ currentImage.title }}</h2>
+        <p>{{ currentIndex + 1 }} / {{ images.length }}</p>
+      </div>
+    </div>
+
+    <div class="carousel-side right">
+      <img 
+        [src]="nextImage.src" 
+        [alt]="nextImage.title"
+        (click)="next()"
+      />
+    </div>
+  </div>
+
+  <div class="status-panel">
+    <mat-chip-set>
+      <mat-chip [class.playing]="isPlaying" [class.paused]="!isPlaying">
+        @if (isPlaying) {
+          <mat-icon>play_circle</mat-icon>
+          Reproduciendo
+        } @else {
+          <mat-icon>pause_circle</mat-icon>
+          Pausado
+        }
+      </mat-chip>
+      <mat-chip highlighted>
+        <mat-icon>speed</mat-icon>
+        {{ currentSpeedLabel }}
+      </mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <div class="controls">
+    <button 
+      mat-raised-button 
+      (click)="rotateLeft()"
+      title="Rotar 90° izquierda"
+    >
+      <mat-icon>rotate_left</mat-icon>
+      Rotar Izq
+    </button>
+
+    <button 
+      mat-raised-button 
+      (click)="previous()"
+      title="Imagen anterior"
+    >
+      <mat-icon>arrow_back</mat-icon>
+      Anterior
+    </button>
+
+    @if (!isPlaying) {
+      <button 
+        mat-raised-button 
+        color="primary"
+        (click)="play()"
+      >
+        <mat-icon>play_arrow</mat-icon>
+        Iniciar
+      </button>
+    } @else {
+      <button 
+        mat-raised-button 
+        color="warn"
+        (click)="pause()"
+      >
+        <mat-icon>pause</mat-icon>
+        Pausar
+      </button>
+    }
+
+    <button 
+      mat-raised-button 
+      (click)="next()"
+      title="Imagen siguiente"
+    >
+      Siguiente
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+
+    <button 
+      mat-raised-button 
+      (click)="rotateRight()"
+      title="Rotar 90° derecha"
+    >
+      <mat-icon>rotate_right</mat-icon>
+      Rotar Der
+    </button>
+
+    <button 
+      mat-raised-button 
+      color="accent"
+      (click)="resetRotation()"
+      title="Restablecer rotación"
+    >
+      <mat-icon>refresh</mat-icon>
+      Reset
+    </button>
+
+    <button 
+      mat-raised-button 
+      (click)="slowDown()" 
+      [disabled]="!canSlowDown"
+      title="Reducir velocidad"
+    >
+      <mat-icon>remove</mat-icon>
+      Ralentizar
+    </button>
+
+    <button 
+      mat-raised-button 
+      (click)="speedUp()" 
+      [disabled]="!canSpeedUp"
+      title="Aumentar velocidad"
+    >
+      <mat-icon>add</mat-icon>
+      Acelerar
+    </button>
+  </div>
+</div>

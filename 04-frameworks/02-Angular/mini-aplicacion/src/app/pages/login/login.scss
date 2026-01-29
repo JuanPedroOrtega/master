@@ -1,0 +1,77 @@
+@use '../../../styles/variables' as *;
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: $spacing-lg;
+}
+
+.login-card {
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+}
+
+mat-card-content {
+  position: relative;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-radius: $border-radius-sm;
+
+  .loading-text {
+    margin-top: $spacing-md;
+    color: $color-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+  }
+}
+
+form.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: $spacing-md;
+}
+
+mat-card-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $spacing-lg;
+}
+
+mat-card-title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-medium;
+}
+
+.error-message {
+  background-color: $color-error;
+  color: white;
+  padding: $spacing-sm;
+  border-radius: $border-radius-sm;
+  margin-bottom: $spacing-md;
+  text-align: center;
+}
+
+.hint {
+  margin-top: $spacing-md;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+}

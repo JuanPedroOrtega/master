@@ -1,1 +1,34 @@
-<p>header works!</p>
+<mat-toolbar color="primary" class="header">
+  <span class="logo">Mini Aplicación</span>
+  
+  <span class="spacer"></span>
+  
+  <nav class="nav-links">
+    <a mat-button routerLink="/home" routerLinkActive="active">Home</a>
+    <a mat-button routerLink="/about" routerLinkActive="active">Acerca de</a>
+    
+    @if ((isLogged$ | async)?.isLogged) {
+      <a mat-button routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a mat-button routerLink="/gallery" routerLinkActive="active">Galería</a>
+      <a mat-button routerLink="/crud" routerLinkActive="active">CRUD</a>
+      <a mat-button routerLink="/profile" routerLinkActive="active">Perfil</a>
+    }
+  </nav>
+  
+  <span class="spacer"></span>
+  
+  @if ((isLogged$ | async)?.isLogged) {
+    <span class="username">{{ username$ | async }}</span>
+    <button mat-icon-button (click)="onRefreshSession()" title="Refrescar sesión (5 min más)">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  }
+  
+  <button mat-raised-button color="accent" (click)="onLoginLogout()">
+    @if ((isLogged$ | async)?.isLogged) {
+      Logout
+    } @else {
+      Login
+    }
+  </button>
+</mat-toolbar>

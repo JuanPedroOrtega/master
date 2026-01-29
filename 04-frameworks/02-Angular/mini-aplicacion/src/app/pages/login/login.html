@@ -1,1 +1,46 @@
-<p>login works!</p>
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Iniciar Sesión</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      @if (isLoading) {
+        <div class="loading-overlay">
+          <mat-spinner diameter="60"></mat-spinner>
+          <p class="loading-text">Iniciando sesión...</p>
+        </div>
+      }
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" [class.loading]="isLoading">
+        @if (errorMessage) {
+          <div class="error-message">{{ errorMessage }}</div>
+        }
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Usuario (Email)</mat-label>
+          <input matInput type="email" formControlName="username" placeholder="ejemplo@correo.com">
+          @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
+            <mat-error>{{ getErrorMessage('username') }}</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="Mínimo 8 caracteres">
+          @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+            <mat-error>{{ getErrorMessage('password') }}</mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading" class="full-width">
+          Iniciar Sesión
+        </button>
+      </form>
+      
+      <div class="hint">
+        <small>Credenciales de prueba: master@lemoncode.net / 12345678</small>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

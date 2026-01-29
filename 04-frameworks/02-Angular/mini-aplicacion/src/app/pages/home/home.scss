@@ -1,0 +1,18 @@
+@use '../../../styles/variables' as *;
+
+.home-container {
+  max-width: $max-width-narrow;
+  margin: $spacing-xxxl auto;
+  padding: $spacing-lg;
+
+  h1 {
+    color: $color-primary;
+    margin-bottom: $spacing-lg;
+  }
+
+  p {
+    font-size: $font-size-base;
+    line-height: 1.6;
+    margin-bottom: $spacing-md;
+  }
+}

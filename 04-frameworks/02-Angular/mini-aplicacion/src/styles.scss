@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use './styles/variables' as *;
 
 html {
   height: 100%;
@@ -19,4 +20,70 @@ body {
   font: var(--mat-sys-body-medium);
   margin: 0;
   height: 100%;
+}
+
+.page-container {
+  max-width: $max-width-narrow;
+  margin: 0 auto;
+  padding: $spacing-xl;
+  
+  @media (max-width: $breakpoint-tablet) {
+    padding: $spacing-lg;
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-md;
+  }
+}
+
+.page-title {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  margin-bottom: $spacing-xl;
+  text-align: center;
+  
+  @media (max-width: $breakpoint-mobile) {
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.mat-form-field-full {
+  width: 100%;
+}
+
+.btn-with-icon {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.message {
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+  margin: $spacing-md 0;
+  
+  &.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef5350;
+  }
+  
+  &.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #66bb6a;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  color: $color-text-secondary;
+  padding: $spacing-xxl;
+  font-size: $font-size-lg;
+}
+
+.gradient-primary {
+  background: $gradient-primary;
 }

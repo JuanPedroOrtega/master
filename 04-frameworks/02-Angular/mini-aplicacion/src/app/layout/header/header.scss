@@ -1,0 +1,41 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  
+  a {
+    &.active {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+.username {
+  margin-right: 16px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

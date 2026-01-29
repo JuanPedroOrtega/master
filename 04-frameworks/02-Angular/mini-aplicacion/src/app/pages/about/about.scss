@@ -1,0 +1,44 @@
+@use '../../../styles/variables' as *;
+
+.about-container {
+  max-width: $max-width-narrow;
+  margin: $spacing-xxxl auto;
+  padding: $spacing-lg;
+
+  h1 {
+    color: $color-primary;
+    margin-bottom: $spacing-lg;
+  }
+
+  h2 {
+    color: $color-text-secondary;
+    font-size: $spacing-lg;
+    margin-top: $spacing-xxl;
+    margin-bottom: $spacing-md;
+  }
+
+  p {
+    font-size: $font-size-base;
+    line-height: 1.6;
+    margin-bottom: $spacing-sm;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      padding: $spacing-xs 0;
+      padding-left: $spacing-xl;
+      position: relative;
+
+      &::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: $color-primary;
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+}
