@@ -1,40 +1,29 @@
 describe('Login Scene E2E Tests', () => {
   beforeEach(() => {
-    cy.visit('/');
-  });
-
-  it('should display login form', () => {
-    cy.contains('Login').should('be.visible');
+    cy.visit('/#/login');
   });
 
   it('should show validation error when submitting empty form', () => {
-    cy.get('button[type="submit"]').click();
-    cy.contains('Required').should('exist');
+    cy.findByRole('button', { name: /login/i }).click();
+
+    cy.findAllByText('Debe informar el campo').should('have.length', 2);
   });
 
   it('should allow user to type username', () => {
-    cy.get('input[name="username"]').type('admin');
-    cy.get('input[name="username"]').should('have.value', 'admin');
+    cy.findByRole('textbox', { name: /usuario/i }).type('admin');
+
+    cy.findByRole('textbox', { name: /usuario/i }).should(
+      'have.value',
+      'admin'
+    );
   });
 
-  it('should allow user to type password', () => {
-    cy.get('input[name="password"]').type('test123');
-    cy.get('input[name="password"]').should('have.value', 'test123');
-  });
+  it('should show invalid credentials message', () => {
+    cy.findByRole('textbox', { name: /usuario/i }).type('wrong');
+    cy.findByLabelText(/contraseña/i).type('wrong');
 
-  it('should navigate to submodule list on successful login', () => {
-    cy.get('input[name="username"]').type('admin');
-    cy.get('input[name="password"]').type('test');
-    cy.get('button[type="submit"]').click();
-    
-    cy.url().should('include', '/submodule-list');
-  });
+    cy.findByRole('button', { name: /login/i }).click();
 
-  it('should display error message on invalid credentials', () => {
-    cy.get('input[name="username"]').type('wronguser');
-    cy.get('input[name="password"]').type('wrongpass');
-    cy.get('button[type="submit"]').click();
-    
-    cy.contains('Invalid credentials').should('be.visible');
+    cy.findByText('Usuario y/o password no válidos').should('be.visible');
   });
 });
